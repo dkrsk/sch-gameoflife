@@ -3,6 +3,9 @@
 #include "gol_core.h"
 #include "gol_struct.h"
 
+#define SPEED_MAX 100
+#define SPEED_MIN 2000
+
 int main()
 {
     struct cell** world = init_world();
@@ -26,4 +29,15 @@ int main()
     }
     destroy_world(&world);
     return 0;
+}
+
+int clamp_speed(int value){
+    int res = value;
+    if(value > SPEED_MAX) {
+        res = SPEED_MAX;
+    }
+    else if (value < SPEED_MIN) {
+        res = SPEED_MIN;
+    }
+    return res;
 }
