@@ -3,7 +3,7 @@ SRCS=	gol_core.c \
 		gol_io.c \
 		game_of_life.c
 
-FLAGS = -Werror -Wextra -Wall -std=c11
+FLAGS = -lncurses -Werror -Wextra -Wall -std=c11
 
 all:
 	gcc $(FLAGS) $(SRCS) -o $(TARGET)
