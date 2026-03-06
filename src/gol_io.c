@@ -1,6 +1,14 @@
 #include "gol_io.h"
 #include <stdio.h>
 
+void interactive() {
+    initscr();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    timeout(40);
+}
+
 int handle_input(void) {
     int ch = getch();  // неблокирующий ввод из ncurses
     
@@ -23,8 +31,7 @@ int handle_input(void) {
 void render(struct cell** world, int speed) {
     clear();  // ncurses очистка
     
-    // Рисуем рамку
-    box(stdscr, 0, 0);
+     box(stdscr, 0, 0);// Рисуем рамку
     
     // Рисуем клетки
     for (int x = 0; x < WORLD_SIZE_X; x++) {
@@ -43,4 +50,27 @@ void render(struct cell** world, int speed) {
              speed);
     
     refresh();
+}
+
+void load_pattern(struct cell **world) {
+    // Очищаем мир
+    for (int y = 0; y < WORLD_SIZE_Y; y++) {
+        for (int x = 0; x < WORLD_SIZE_X; x++) {
+            world[y][x].state = 0;
+        }
+    }
+    
+    // Читаем координаты из stdin
+    int x, y;
+    char line[256];
+    
+    while (fgets(line, sizeof(line), stdin)) {
+        if (line[0] == '#') continue;  // пропускаем комментарии
+        
+        if (sscanf(line, "%d %d", &x, &y) == 2) {
+            if (x >= 0 && x < WORLD_SIZE_X && y >= 0 && y < WORLD_SIZE_Y) {
+                world[y][x].state = 1;  // world[строка][столбец]
+            }
+        }
+    }
 }
