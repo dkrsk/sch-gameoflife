@@ -44,3 +44,12 @@ void render(struct cell** world, int speed) {
     
     refresh();
 }
+// ИСПРАВЛЕНО: убрано дублирование nodelay и timeout
+void interactive() {  // опечатка: было interective, правильно interactive
+    initscr();              // 1. Инициализация ncurses
+    noecho();               // 2. Не отображать вводимые символы
+    curs_set(0);            // 3. Скрыть курсор
+    keypad(stdscr, TRUE);   // 4. Включить функциональные клавиши
+    timeout(40);            // 5. Таймаут 40 мс (заменяет nodelay)
+    // nodelay(stdscr, TRUE); - УБРАНО! timeout(40) делает то же самое
+}
