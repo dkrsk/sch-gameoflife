@@ -74,3 +74,8 @@ void load_pattern(struct cell **world) {
         }
     }
 }
+void interactive() {        // вызов функций ncurses
+    initscr();              // 1. Инициализация графики
+    noecho();               // 2. Не отображать вводимые символы
+    curs_set(0);            // 3. Скрыть курсор
+}
