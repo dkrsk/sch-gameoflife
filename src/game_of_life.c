@@ -13,14 +13,16 @@ int clamp_delay(int value);
 int main() {
     struct cell** world = init_world();
     struct cell** wolrd2 = init_world();
-    int delay = 200;
     int load_res = load_pattern(world);
-    int timer = 0;
 
     interactive();
     timeout(TIMEOUT);
+
     if (load_res) {
         int input = 0;
+        int delay = 200;
+        int timer = 0;
+
         while (input != INPUT_QUIT) {
             render(world, delay);
             input = handle_input();
