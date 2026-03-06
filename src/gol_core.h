@@ -5,9 +5,9 @@
 
 #include "gol_struct.h"
 
-struct cell *init_world();
-void destroy_world(struct cell **world);
-int count_neighbors(struct cell point);
-void update(struct cell **world);
+struct cell **init_world();
+void destroy_world(struct cell ***world);
+int count_neighbors(struct cell point, struct cell **world);
+void update(struct cell ***world);
 
 #endif
