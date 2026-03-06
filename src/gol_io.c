@@ -1,13 +1,6 @@
 #include "gol_io.h"
 #include <stdio.h>
 
-void interactive() {
-    initscr();
-    noecho();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-    timeout(40);
-}
 
 int handle_input(void) {
     int ch = getch();  // неблокирующий ввод из ncurses
@@ -29,50 +22,52 @@ int handle_input(void) {
     }
 }
 void render(struct cell** world, int speed) {
-    clear();  // ncurses очистка
+    erase();  // ncurses очистка
     
-     box(stdscr, 0, 0);// Рисуем рамку
+    // box(stdscr, 0, 0);// Рисуем рамку
     
     // Рисуем клетки
     for (int x = 0; x < WORLD_SIZE_X; x++) {
         for (int y = 0; y < WORLD_SIZE_Y; y++) {
             if (world[x][y].state) {
-                mvaddch(x + 1, y + 1, '#');
+                mvaddch(x + 1, y + 1, '*');
             } else {
-                mvaddch(x + 1, y + 1, '.');
+                mvaddch(x + 1, y + 1, '_');
             }
         }
     }
     
     // Информационная панель
     mvprintw(WORLD_SIZE_X + 2, 0, 
-             "Скорость: %d мс | A - быстрее, Z - медленнее, Пробел - выход", 
+             "Speed: %d ms | A - faster, Z - slower, Space - exit", 
              speed);
     
     refresh();
 }
-
-void load_pattern(struct cell **world) {
-    // Очищаем мир
-    for (int y = 0; y < WORLD_SIZE_Y; y++) {
-        for (int x = 0; x < WORLD_SIZE_X; x++) {
-            world[y][x].state = 0;
-        }
-    }
-    
-    // Читаем координаты из stdin
-    int x, y;
-    char line[256];
-    
-    while (fgets(line, sizeof(line), stdin)) {
-        if (line[0] == '#') continue;  // пропускаем комментарии
-        
-        if (sscanf(line, "%d %d", &x, &y) == 2) {
-            if (x >= 0 && x < WORLD_SIZE_X && y >= 0 && y < WORLD_SIZE_Y) {
-                world[y][x].state = 1;  // world[строка][столбец]
+void render_message(char* message){
+    clear();
+    printw(message);
+    printw("\nPress any key to exit");
+    refresh();
+    getch();
+}
+int load_pattern(struct cell **world) {
+    int code = 1;
+    int tmp = 0;
+    for (int x = 0; x < WORLD_SIZE_X; x++){
+        for (int y = 0; y <WORLD_SIZE_Y; y++){
+            if (scanf("%d",&tmp) && (tmp == 1 || tmp == 0)){
+                world[x][y].state = tmp;
+            }
+            else {
+                code = 0;
             }
         }
     }
+    if(freopen("/dev/tty", "r", stdin) == NULL) {
+        code = 0;
+    }
+    return code;
 }
 void interactive() {        // вызов функций ncurses
     initscr();              // 1. Инициализация графики

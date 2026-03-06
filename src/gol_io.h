@@ -15,8 +15,10 @@ void interactive(void);
 
 void render(struct cell** world, int speed);
 
-void load_pattern(struct cell** world);
+int load_pattern(struct cell **world);
 
 int handle_input();  // 0 - ничего. 1 - увеличить скорость. -1 уменьшить скорость. 10 - выход из игры
+
+void render_message(char* message);
 
 #endif
