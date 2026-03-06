@@ -9,6 +9,8 @@
 #define INPUT_SLOWER   -1   // уменьшить скорость (Z)
 #define INPUT_QUIT     10   // выход из игры (пробел)
 
+void init_screen();
+
 void render(struct cell **world, int speed);
 
 void load_pattern(struct cell **world);
