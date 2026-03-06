@@ -1,53 +1,55 @@
 
-#include "gol_io.h"
 #include "gol_core.h"
+#include "gol_io.h"
 #include "gol_struct.h"
 
-#define SPEED_MAX 100
-#define SPEED_MIN 2000
-#define SPEED_STEP 100
+#define DELAY_MAX 50
+#define DELAY_MIN 1000
+#define DELAY_STEP 50
+#define TIMEOUT 20
 
-int clamp_speed(int value);
+int clamp_delay(int value);
 
-int main()
-{
+int main() {
     struct cell** world = init_world();
     struct cell** wolrd2 = init_world();
-    int speed = 200;
+    int delay = 200;
     int load_res = load_pattern(world);
+    int timer = 0;
+
     interactive();
-    if(load_res) {
+    timeout(TIMEOUT);
+    if (load_res) {
         int input = 0;
-        while (input != INPUT_QUIT)
-        {   
-            timeout(speed);
-            render(world, speed);
+        while (input != INPUT_QUIT) {
+            render(world, delay);
             input = handle_input();
-            if (input == INPUT_FASTER){
-                speed = clamp_speed(speed-SPEED_STEP);
+            if (input == INPUT_FASTER) {
+                delay = clamp_delay(delay - DELAY_STEP);
             }
-            if (input == INPUT_SLOWER){
-                speed = clamp_speed(speed+SPEED_STEP);
-            } 
-            
-            update(&world, &wolrd2);
+            if (input == INPUT_SLOWER) {
+                delay = clamp_delay(delay + DELAY_STEP);
+            }
+            timer += TIMEOUT;
+            if (timer >= delay) {
+                update(&world, &wolrd2);
+                timer = 0;
+            }
         }
         destroy_world(&world);
-    }
-    else {
-        render_message("incorrent input data");
+    } else {
+        render_message("Incorrent input data");
     }
     endwin();
     return 0;
 }
 
-int clamp_speed(int value){
+int clamp_delay(int value) {
     int res = value;
-    if(value > SPEED_MIN) {
-        res = SPEED_MIN;
-    }
-    else if (value < SPEED_MAX) {
-        res = SPEED_MAX;
+    if (value > DELAY_MIN) {
+        res = DELAY_MIN;
+    } else if (value < DELAY_MAX) {
+        res = DELAY_MAX;
     }
     return res;
 }

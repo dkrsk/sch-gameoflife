@@ -4,27 +4,33 @@
 
 int handle_input(void) {
     int ch = getch();  // неблокирующий ввод из ncurses
+    int res;
     
     switch(ch) {
         case ' ':      // Пробел - выход
-            return INPUT_QUIT;
+            res = INPUT_QUIT;
+            break;
             
         case 'a':
         case 'A':      // A - увеличить скорость
-            return INPUT_FASTER;
+            res = INPUT_FASTER;
+            break;
             
         case 'z':
         case 'Z':      // Z - уменьшить скорость
-            return INPUT_SLOWER;
+            res = INPUT_SLOWER;
+            break;
             
         default:
-            return INPUT_NONE;
+            res = INPUT_NONE;
+            break;
     }
+    return res;
 }
 void render(struct cell** world, int speed) {
     erase();  // ncurses очистка
     
-    // box(stdscr, 0, 0);// Рисуем рамку
+    box(stdscr, 0, 0);// Рисуем рамку
     
     // Рисуем клетки
     for (int x = 0; x < WORLD_SIZE_X; x++) {
@@ -39,7 +45,7 @@ void render(struct cell** world, int speed) {
     
     // Информационная панель
     mvprintw(WORLD_SIZE_X + 2, 0, 
-             "Speed: %d ms | A - faster, Z - slower, Space - exit", 
+             "Delay: %d ms | A - faster, Z - slower, Space - exit", 
              speed);
     
     refresh();
