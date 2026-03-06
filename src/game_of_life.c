@@ -17,10 +17,12 @@ int main()
     int load_res = load_pattern(world);
     interactive();
     if(load_res) {
-        int input = handle_input();
+        int input = 0;
         while (input != INPUT_QUIT)
         {   
-            int input = handle_input();
+            timeout(speed);
+            render(world, speed);
+            input = handle_input();
             if (input == INPUT_FASTER){
                 speed = clamp_speed(speed-SPEED_STEP);
             }
@@ -28,8 +30,6 @@ int main()
                 speed = clamp_speed(speed+SPEED_STEP);
             } 
             
-            timeout(speed);
-            render(world, speed);
             update(&world, &wolrd2);
         }
         destroy_world(&world);
