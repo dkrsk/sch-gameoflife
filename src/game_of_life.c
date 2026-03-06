@@ -5,6 +5,9 @@
 
 #define SPEED_MAX 100
 #define SPEED_MIN 2000
+#define SPEED_STEP 20
+
+int clamp_speed(int value);
 
 int main()
 {
@@ -19,10 +22,10 @@ int main()
         timeout(speed);
         int input = handle_input();
         if (input == INPUT_FASTER){
-            speed -= 20;
+            speed = clamp_speed(speed-SPEED_STEP);
         }
         if (input == INPUT_SLOWER){
-            speed += 20;
+            speed = clamp_speed(speed+SPEED_STEP);
         } 
         render(world, speed);
         update(&world, &wolrd2);
