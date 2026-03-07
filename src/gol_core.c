@@ -56,8 +56,11 @@ void update(struct cell ***world, struct cell ***next) {
             if (count == 3) {
                 nextm[i][j].state = 1;
             }
-            if (count == 2 && current[i][j].state == 1) {
+            else if (count == 2 && current[i][j].state == 1) {
                 nextm[i][j].state = 1;
+            }
+            else {
+                nextm[i][j].state = 0;
             }
         }
     }
