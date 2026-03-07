@@ -36,9 +36,9 @@ void render(struct cell** world, int speed) {
     for (int x = 0; x < WORLD_SIZE_X; x++) {
         for (int y = 0; y < WORLD_SIZE_Y; y++) {
             if (world[x][y].state) {
-                mvaddch(x + 1, y + 1, '*');
+                mvaddch(x + 1, y + 1, 'O');
             } else {
-                mvaddch(x + 1, y + 1, '_');
+                mvaddch(x + 1, y + 1, '-');
             }
         }
     }
@@ -60,7 +60,7 @@ int load_pattern(struct cell** world) {
     int tmp = 0;
     for (int x = 0; x < WORLD_SIZE_X; x++) {
         for (int y = 0; y < WORLD_SIZE_Y; y++) {
-            if (scanf("%d", &tmp) && (tmp == 1 || tmp == 0)) {
+            if (scanf("%1d", &tmp) && (tmp == 1 || tmp == 0)) {
                 world[x][y].state = tmp;
             } else {
                 code = 0;
