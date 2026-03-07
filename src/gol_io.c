@@ -47,7 +47,7 @@ void render(struct cell** world, int speed) {
 
     // Информационная панель
     if (has_colors()) attron(COLOR_PAIR(2));
-    mvprintw(WORLD_SIZE_X + 2, 0, "Delay: %d ms | A - faster, Z - slower, Space - exit", speed);
+    mvprintw(WORLD_SIZE_X + 2, 2, "Delay: %d ms | A - faster, Z - slower, Space - exit", speed);
 
     refresh();
 }
