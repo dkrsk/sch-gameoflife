@@ -40,12 +40,13 @@ void render(struct cell** world, int speed) {
                 mvaddch(x + 1, y + 1, 'O');
             } else {
                 if (has_colors()) attron(COLOR_PAIR(2));
-                mvaddch(x + 1, y + 1, '-');
+                mvaddch(x + 1, y + 1, ' ');
             }
         }
     }
 
     // Информационная панель
+    if (has_colors()) attron(COLOR_PAIR(2));
     mvprintw(WORLD_SIZE_X + 2, 0, "Delay: %d ms | A - faster, Z - slower, Space - exit", speed);
 
     refresh();

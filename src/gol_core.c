@@ -55,11 +55,9 @@ void update(struct cell ***world, struct cell ***next) {
             int count = count_neighbors(i, j, current);  // проверка правил игры
             if (count == 3) {
                 nextm[i][j].state = 1;
-            }
-            else if (count == 2 && current[i][j].state == 1) {
+            } else if (count == 2 && current[i][j].state == 1) {
                 nextm[i][j].state = 1;
-            }
-            else {
+            } else {
                 nextm[i][j].state = 0;
             }
         }

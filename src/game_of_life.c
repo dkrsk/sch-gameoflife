@@ -14,17 +14,17 @@ int main() {
     struct cell** world = init_world();
     struct cell** world2 = init_world();
     int load_res = 0;
-    if(world != NULL && world2 != NULL) {
+    if (world != NULL && world2 != NULL) {
         load_res = load_pattern(world);
     }
 
     interactive();
-    timeout(TIMEOUT);
+    timeout(TIMEOUT);  // таймаут ожидания ВВОДА (в handle_input). тикрейт
 
     if (load_res) {
         int input = 0;
         int delay = 500;
-        int timer = 0;
+        int timer = 0;  // таймер сколько мс прошло с прошлого вызова update()
 
         while (input != INPUT_QUIT) {
             render(world, delay);
@@ -35,14 +35,12 @@ int main() {
             if (input == INPUT_SLOWER) {
                 delay = clamp_delay(delay + DELAY_STEP);
             }
-            timer += TIMEOUT;
-            if (timer >= delay) {
+            timer += TIMEOUT;      // прибавляем к таймеру тикрейт
+            if (timer >= delay) {  // если тикрейт больше заданного пользователем делея, вызываем апдейт
                 update(&world, &world2);
                 timer = 0;
             }
         }
-        destroy_world(&world);
-        destroy_world(&world2);
     } else {
         render_message("Incorrect input data");
     }
