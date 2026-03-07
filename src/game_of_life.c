@@ -18,8 +18,7 @@ int main() {
         load_res = load_pattern(world);
     }
 
-    interactive();
-    timeout(TIMEOUT);  // таймаут ожидания ВВОДА (в handle_input). тикрейт
+    interactive(TIMEOUT);
 
     if (load_res) {
         int input = 0;

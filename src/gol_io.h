@@ -11,7 +11,7 @@
 #define INPUT_QUIT 10    // выход из игры (пробел)
 
 // Инициализация ncurses для интерактивного режима
-void interactive(void);
+void interactive(int tickrate);
 
 void render(struct cell** world, int speed);
 

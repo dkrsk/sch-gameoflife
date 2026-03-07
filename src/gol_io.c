@@ -52,9 +52,7 @@ void render(struct cell** world, int speed) {
     refresh();
 }
 
-void render_message(char* message) {
-    printf("%s", message);
-}
+void render_message(char* message) { printf("%s", message); }
 
 int load_pattern(struct cell** world) {
     int code = 1;
@@ -73,10 +71,11 @@ int load_pattern(struct cell** world) {
     }
     return code;
 }
-void interactive() {     // вызов функций ncurses
-    initscr();           // 1. Инициализация графики
-    noecho();            // 2. Не отображать вводимые символы
-    curs_set(0);         // 3. Скрыть курсор
+void interactive(int tickrate) {  // вызов функций ncurses
+    initscr();                    // 1. Инициализация графики
+    noecho();                     // 2. Не отображать вводимые символы
+    curs_set(0);                  // 3. Скрыть курсор
+    timeout(tickrate);   // таймаут ожидания ВВОДА (в handle_input). тикрейт
     if (has_colors()) {  // если экран поддерживает цвета
         start_color();   // инициализация цветов
         use_default_colors();  // использовать стандартные цвета темы терминала
