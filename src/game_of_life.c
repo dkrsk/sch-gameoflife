@@ -18,9 +18,8 @@ int main() {
         load_res = load_pattern(world);
     }
 
-    interactive(TIMEOUT);
-
     if (load_res) {
+        interactive(TIMEOUT);
         int input = 0;
         int delay = 500;
         int timer = 0;  // таймер сколько мс прошло с прошлого вызова update()
