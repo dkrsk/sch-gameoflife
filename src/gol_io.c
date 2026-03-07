@@ -1,6 +1,6 @@
 #include "gol_io.h"
 
-#include <stdio.h>
+#include <ncurses.h>
 
 int handle_input(void) {
     int ch = getch();  // неблокирующий ввод из ncurses
@@ -36,8 +36,10 @@ void render(struct cell** world, int speed) {
     for (int x = 0; x < WORLD_SIZE_X; x++) {
         for (int y = 0; y < WORLD_SIZE_Y; y++) {
             if (world[x][y].state) {
+                if (has_colors()) attron(COLOR_PAIR(1));
                 mvaddch(x + 1, y + 1, 'O');
             } else {
+                if (has_colors()) attron(COLOR_PAIR(2));
                 mvaddch(x + 1, y + 1, '-');
             }
         }
@@ -72,8 +74,14 @@ int load_pattern(struct cell** world) {
     }
     return code;
 }
-void interactive() {  // вызов функций ncurses
-    initscr();        // 1. Инициализация графики
-    noecho();         // 2. Не отображать вводимые символы
-    curs_set(0);      // 3. Скрыть курсор
+void interactive() {     // вызов функций ncurses
+    initscr();           // 1. Инициализация графики
+    noecho();            // 2. Не отображать вводимые символы
+    curs_set(0);         // 3. Скрыть курсор
+    if (has_colors()) {  // если экран поддерживает цвета
+        start_color();   // инициализация цветов
+        use_default_colors();  // использовать стандартные цвета темы терминала
+        init_pair(1, COLOR_CYAN, -1);  // пара цветов №1 - голубой. текст и стандартный фон
+        init_pair(2, -1, -1);  // пара цветов №2 - стандартный текст и стандартный фон
+    }
 }
