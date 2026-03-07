@@ -3,7 +3,7 @@
 #include <ncurses.h>
 
 int handle_input(void) {
-    int ch = getch();  // неблокирующий ввод из ncurses
+    int ch = getch();
     int res;
 
     if (ch == ' ') {
@@ -18,12 +18,11 @@ int handle_input(void) {
     return res;
 }
 void render(struct cell** world, int speed) {
-    erase();  // ncurses очистка
+    erase();
 
-    box(stdscr, 0, 0);  // Рисуем рамку
+    box(stdscr, 0, 0);
 
-    for (int x = 0; x < WORLD_SIZE_X; x++)  // Рисуем клетки
-    {
+    for (int x = 0; x < WORLD_SIZE_X; x++) {
         for (int y = 0; y < WORLD_SIZE_Y; y++) {
             if (world[x][y].state) {
                 if (has_colors()) attron(COLOR_PAIR(1));
@@ -35,8 +34,7 @@ void render(struct cell** world, int speed) {
         }
     }
 
-    if (has_colors())  // Информационная панель
-        attron(COLOR_PAIR(2));
+    if (has_colors()) attron(COLOR_PAIR(2));
     mvprintw(WORLD_SIZE_X + 2, 2, "Delay: %d ms | A - faster, Z - slower, Space - exit", speed);
 
     refresh();
@@ -62,14 +60,14 @@ int load_pattern(struct cell** world) {
     return code;
 }
 void interactive(int tickrate) {  // вызов функций ncurses
-    initscr();                    // инициализация графики
-    noecho();                     // не отображать вводимые символы
-    curs_set(0);                  // скрыть курсор(мигание)
-    timeout(tickrate);   // таймаут ожидания ВВОДА (в handle_input). тикрейт
-    if (has_colors()) {  // если экран поддерживает цвета
-        start_color();   // инициализация цветов
-        use_default_colors();  // использовать стандартные цвета темы терминала
-        init_pair(1, COLOR_CYAN, -1);  // пара цветов №1 - голубой. текст и стандартный фон
-        init_pair(2, -1, -1);  // пара цветов №2 - стандартный текст и стандартный фон
+    initscr();
+    noecho();
+    curs_set(0);
+    timeout(tickrate);
+    if (has_colors()) {
+        start_color();
+        use_default_colors();
+        init_pair(1, COLOR_CYAN, -1);
+        init_pair(2, -1, -1);
     }
 }
