@@ -4,7 +4,7 @@
 #include "gol_struct.h"
 
 #define DELAY_MAX 50
-#define DELAY_MIN 1000
+#define DELAY_MIN 2000
 #define DELAY_STEP 50
 #define TIMEOUT 20
 
@@ -20,7 +20,7 @@ int main() {
 
     if (load_res) {
         int input = 0;
-        int delay = 200;
+        int delay = 500;
         int timer = 0;
 
         while (input != INPUT_QUIT) {
