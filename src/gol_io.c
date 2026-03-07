@@ -51,13 +51,11 @@ void render(struct cell** world, int speed) {
 
     refresh();
 }
+
 void render_message(char* message) {
-    clear();
-    printw(message);
-    printw("\nPress any key to exit");
-    refresh();
-    getch();
+    printf("%s", message);
 }
+
 int load_pattern(struct cell** world) {
     int code = 1;
     int tmp = 0;
