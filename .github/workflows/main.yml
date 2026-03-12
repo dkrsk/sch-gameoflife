@@ -1,0 +1,38 @@
+name: C CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format cppcheck gcc libncurses-dev libtinfo-dev
+
+      - name: Run clang-format check
+        continue-on-error: true
+        run: |
+          find . -name "*.c" -o -name "*.h" | xargs clang-format --style=file:.clang-format --dry-run --Werror
+
+      - name: Run cppcheck
+        continue-on-error: true
+        run: |
+          cppcheck --enable=all --error-exitcode=1 --suppress=missingIncludeSystem .
+
+      - name: Compile
+        run: |
+          gcc -Wall -Wextra -Werror -std=c11 src/gol_core.c src/gol_io.c src/game_of_life.c -o Game_of_life \
+              -Wl,-Bstatic -lncurses -ltinfo -Wl,-Bdynamic
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Game_of_life-linux
+          path: |
+            Game_of_life
